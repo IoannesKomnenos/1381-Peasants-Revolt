@@ -10,6 +10,7 @@ public class Dialogsystem : MonoBehaviour
     [Header("UI assets")]
     public TMP_Text textLabel;
     public Image faceImage;
+    public Image imgPicture;
 
     [Header("Text assets")]
     public TextAsset textFile;
@@ -92,6 +93,27 @@ public class Dialogsystem : MonoBehaviour
                 faceImage.sprite = face02;
                 index++;
                 break;
+
+            case "HidePicture":
+                imgPicture.gameObject.SetActive(false);
+                index++;
+                yield return StartCoroutine(SetTextUI());
+                yield break;
+            case "PictureNoWait":
+                imgPicture.gameObject.SetActive(true);
+                index++;
+                imgPicture.sprite = Resources.Load<Sprite>(textList[index].Trim().ToString());
+                index++;
+                yield return StartCoroutine(SetTextUI());
+                yield break;
+            case "Picture":
+                imgPicture.gameObject.SetActive(true);
+                index++;
+                imgPicture.sprite = Resources.Load<Sprite>(textList[index].Trim().ToString());
+                index++;
+                cancelTyping = false;
+                textFinished = true;
+                yield break;
         }
 
         //for (int i = 0; i < textList[index].Length; i ++)

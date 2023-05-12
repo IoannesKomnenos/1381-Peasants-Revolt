@@ -1,5 +1,9 @@
+HidePicture
 Lady
 Hi! Nice to see you! I really like the bread you made.
+Picture
+imgBg01
+HidePicture
 Baker
 Thanks. Our family had been made the bread since fourteenth century.
 Lady
