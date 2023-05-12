@@ -40,7 +40,10 @@ public class Dialogsystem : MonoBehaviour
         //index++;
         textFinished = true;
         StartCoroutine(SetTextUI());
-        imgPicture.gameObject.SetActive(false);
+        if (imgPicture != null)
+        {
+            imgPicture.gameObject.SetActive(false);
+        }
     }
 
     void Update()
@@ -67,26 +70,7 @@ public class Dialogsystem : MonoBehaviour
             {
                 cancelTyping = true;
             }
-
-        if (Input.GetKeyDown(KeyCode.F))
-            {
-                FadeToNextLevel();
-            }
         }
-    }
-    public void FadeToNextLevel()
-    {
-        FadeToLevel(SceneManager.GetActiveScene().buildIndex + 1);
-    }
-
-    public void FadeToLevel(int levelIndex)
-    {
-        LevelToLoad = levelIndex;
-        animator.SetTrigger("FadeOut");
-    }
-    public void OnFadeComplete()
-    {
-        SceneManager.LoadScene(LevelToLoad);
     }
     void GetTextFormFile(TextAsset file)
     {
