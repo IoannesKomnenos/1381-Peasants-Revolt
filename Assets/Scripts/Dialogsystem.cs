@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class Dialogsystem : MonoBehaviour
 {
@@ -35,6 +36,7 @@ public class Dialogsystem : MonoBehaviour
         //index++;
         textFinished = true;
         StartCoroutine(SetTextUI());
+        imgPicture.gameObject.SetActive(false);
     }
 
     void Update()
@@ -95,6 +97,8 @@ public class Dialogsystem : MonoBehaviour
                 break;
 
             case "HidePicture":
+                imgPicture.DOFade(0, 0.5f);
+                yield return new WaitForSeconds(0.5f);
                 imgPicture.gameObject.SetActive(false);
                 index++;
                 yield return StartCoroutine(SetTextUI());
@@ -103,6 +107,7 @@ public class Dialogsystem : MonoBehaviour
                 imgPicture.gameObject.SetActive(true);
                 index++;
                 imgPicture.sprite = Resources.Load<Sprite>(textList[index].Trim().ToString());
+                imgPicture.DOFade(1f, 0.5f);
                 index++;
                 yield return StartCoroutine(SetTextUI());
                 yield break;
@@ -110,6 +115,7 @@ public class Dialogsystem : MonoBehaviour
                 imgPicture.gameObject.SetActive(true);
                 index++;
                 imgPicture.sprite = Resources.Load<Sprite>(textList[index].Trim().ToString());
+                imgPicture.DOFade(1f, 0.5f);
                 index++;
                 cancelTyping = false;
                 textFinished = true;
