@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 public class Dialogsystem : MonoBehaviour
 {
@@ -20,6 +21,9 @@ public class Dialogsystem : MonoBehaviour
 
     [Header("Face")]
     public Sprite face01, face02;
+
+    public Animator animator;
+    private int LevelToLoad;
 
     bool textFinished;
     bool cancelTyping;
@@ -41,7 +45,7 @@ public class Dialogsystem : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.F) && index == textList.Count )
+        if(Input.GetKeyDown(KeyCode.F) && index == textList.Count)
         {
             gameObject.SetActive(false);
             index = 0;
@@ -63,9 +67,27 @@ public class Dialogsystem : MonoBehaviour
             {
                 cancelTyping = true;
             }
+
+        if (Input.GetKeyDown(KeyCode.F))
+            {
+                FadeToNextLevel();
+            }
         }
     }
+    public void FadeToNextLevel()
+    {
+        FadeToLevel(SceneManager.GetActiveScene().buildIndex + 1);
+    }
 
+    public void FadeToLevel(int levelIndex)
+    {
+        LevelToLoad = levelIndex;
+        animator.SetTrigger("FadeOut");
+    }
+    public void OnFadeComplete()
+    {
+        SceneManager.LoadScene(LevelToLoad);
+    }
     void GetTextFormFile(TextAsset file)
     {
         textList.Clear();
@@ -119,6 +141,10 @@ public class Dialogsystem : MonoBehaviour
                 index++;
                 cancelTyping = false;
                 textFinished = true;
+                yield break;
+            case "ChangeScene":
+                this.gameObject.SetActive(false);
+                EventCenter.Instance.EventTrigger("ChangeScene", null);
                 yield break;
         }
 

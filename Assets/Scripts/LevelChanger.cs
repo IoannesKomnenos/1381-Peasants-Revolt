@@ -5,14 +5,31 @@ public class LevelChanger : MonoBehaviour
 {
     public Animator animator;
     private int LevelToLoad;
+
+    public bool isEnableLeftClickChange = false;
+
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (isEnableLeftClickChange)
         {
-            FadeToNextLevel();
+            if (Input.GetMouseButtonDown(0))
+            {
+                FadeToNextLevel(null);
+            }
         }
     }
-    public void FadeToNextLevel ()
+
+    public void OnEnable()
+    {
+        EventCenter.Instance.AddEventListener("ChangeScene", FadeToNextLevel);
+    }
+
+    public void OnDestroy()
+    {
+        EventCenter.Instance.RemoveEventListener("ChangeScene", FadeToNextLevel);
+    }
+
+    public void FadeToNextLevel (object arg0)
     {
         FadeToLevel (SceneManager.GetActiveScene(). buildIndex+1);
     }
